@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fastapi-logger
+  labels:
+    service: fastapi-logger
+    app: fastapi-logger
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: fastapi-logger
+  template:
+    metadata:
+      labels:
+        app: fastapi-logger
+    spec:
+      containers:
+        - name: fastapi-logger
+          image: fastapi-logger:1.0
+          imagePullPolicy: Never
+          envFrom:
+            - secretRef:
+                name: fastapi-logger-env
+          ports:
+            - containerPort: 8000
